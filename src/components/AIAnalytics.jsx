@@ -570,20 +570,32 @@ const AIAnalytics = () => {
 
   // Simulate AI content loading on component mount
   useEffect(() => {
+    let isMounted = true;
+    
     const loadContent = async () => {
+      if (!isMounted) return;
       setLoading(true);
+      setSections([]); // Clear existing sections
       
       // Simulate loading each section progressively
       for (let i = 0; i < defaultSections.length; i++) {
+        if (!isMounted) break;
         await new Promise(resolve => setTimeout(resolve, 800));
+        if (!isMounted) break;
         setSections(prev => [...prev, { ...defaultSections[i], timestamp: Date.now() }]);
         setLoadingStages(prev => [...prev, i]);
       }
       
-      setLoading(false);
+      if (isMounted) {
+        setLoading(false);
+      }
     };
 
     loadContent();
+    
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Scroll to bottom when new content is added
