@@ -17,6 +17,7 @@ import {
   List,
   ListItem,
   ListItemText,
+  Link,
 } from '@mui/material';
 import {
   Send,
@@ -30,12 +31,14 @@ import {
 
 // Content renderer component for handling text and lists
 const ContentRenderer = ({ content, theme }) => {
-  // Function to parse bold text formatting
+  // Function to parse bold text formatting and links
   const parseTextFormatting = (text) => {
-    // Split by bold patterns (**text** or __text__)
-    const parts = text.split(/(\*\*[^*]+\*\*|__[^_]+__)/g);
+    // Combined regex to split by bold patterns and URLs
+    const combinedRegex = /(\*\*[^*]+\*\*|__[^_]+__|https?:\/\/[^\s]+)/g;
+    const parts = text.split(combinedRegex);
     
     return parts.map((part, index) => {
+      // Bold text with **text**
       if (part.startsWith('**') && part.endsWith('**')) {
         return (
           <Typography
@@ -46,7 +49,9 @@ const ContentRenderer = ({ content, theme }) => {
             {part.slice(2, -2)}
           </Typography>
         );
-      } else if (part.startsWith('__') && part.endsWith('__')) {
+      } 
+      // Bold text with __text__
+      else if (part.startsWith('__') && part.endsWith('__')) {
         return (
           <Typography
             key={index}
@@ -57,6 +62,29 @@ const ContentRenderer = ({ content, theme }) => {
           </Typography>
         );
       }
+      // Direct URLs (http:// or https://)
+      else if (part.match(/^https?:\/\/[^\s]+$/)) {
+        return (
+          <Link
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              color: theme.palette.primary.main,
+              textDecoration: 'underline',
+              wordBreak: 'break-all',
+              '&:hover': {
+                color: theme.palette.primary.dark,
+                textDecoration: 'underline',
+              },
+            }}
+          >
+            {part}
+          </Link>
+        );
+      }
+      
       return part;
     });
   };
@@ -357,7 +385,9 @@ const defaultSections = [
   • Millennial professionals (25-35 age group)
   • Small business owners
   • Enterprise decision makers
-• **Competitive advantage** maintained through innovation`,
+• **Competitive advantage** maintained through innovation
+• View detailed analytics at https://analytics.example.com
+• Download full report: https://reports.example.com/business-overview.pdf`,
   },
   {
     id: 'trends',
@@ -789,7 +819,7 @@ Overall performance improvement: 18-25% across all key metrics.`,
               maxRows={4}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               placeholder="Ask me anything about your data, trends, or business insights..."
               disabled={isGenerating}
               variant="outlined"
