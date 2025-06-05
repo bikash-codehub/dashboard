@@ -30,6 +30,37 @@ import {
 
 // Content renderer component for handling text and lists
 const ContentRenderer = ({ content, theme }) => {
+  // Function to parse bold text formatting
+  const parseTextFormatting = (text) => {
+    // Split by bold patterns (**text** or __text__)
+    const parts = text.split(/(\*\*[^*]+\*\*|__[^_]+__)/g);
+    
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return (
+          <Typography
+            key={index}
+            component="span"
+            sx={{ fontWeight: 700, color: theme.palette.text.primary }}
+          >
+            {part.slice(2, -2)}
+          </Typography>
+        );
+      } else if (part.startsWith('__') && part.endsWith('__')) {
+        return (
+          <Typography
+            key={index}
+            component="span"
+            sx={{ fontWeight: 700, color: theme.palette.text.primary }}
+          >
+            {part.slice(2, -2)}
+          </Typography>
+        );
+      }
+      return part;
+    });
+  };
+
   const parseContent = (text) => {
     // Split content by double newlines to separate paragraphs and lists
     const blocks = text.split('\n\n').filter(block => block.trim());
@@ -40,6 +71,11 @@ const ContentRenderer = ({ content, theme }) => {
       // Check if block is an ordered list (starts with "1." or similar)
       if (/^\d+\.\s/.test(trimmedBlock)) {
         return parseOrderedList(trimmedBlock, blockIndex);
+      }
+      
+      // Check if block is an unordered list (starts with "•" or "-")
+      if (/^[•\-]\s/.test(trimmedBlock)) {
+        return parseUnorderedList(trimmedBlock, blockIndex);
       }
       
       // Regular paragraph
@@ -54,7 +90,7 @@ const ContentRenderer = ({ content, theme }) => {
             mb: blockIndex < blocks.length - 1 ? 2 : 0,
           }}
         >
-          {trimmedBlock}
+          {parseTextFormatting(trimmedBlock)}
         </Typography>
       );
     });
@@ -133,7 +169,7 @@ const ContentRenderer = ({ content, theme }) => {
                         mb: item.subItems.length > 0 ? 1 : 0,
                       }}
                     >
-                      {item.text}
+                      {parseTextFormatting(item.text)}
                     </Typography>
                     
                     {/* Nested sub-items */}
@@ -163,7 +199,129 @@ const ContentRenderer = ({ content, theme }) => {
                                   flex: 1,
                                 }}
                               >
-                                {subItem}
+                                {parseTextFormatting(subItem)}
+                              </Typography>
+                            </Box>
+                          </ListItem>
+                        ))}
+                      </List>
+                    )}
+                  </Box>
+                </Box>
+              </ListItem>
+            </React.Fragment>
+          ))}
+        </List>
+      </Box>
+    );
+  };
+
+  const parseUnorderedList = (listText, blockIndex) => {
+    const lines = listText.split('\n').map(line => line.trim()).filter(line => line);
+    const listItems = [];
+    let currentItem = null;
+    let currentSubItems = [];
+
+    lines.forEach((line) => {
+      // Main list item (starts with bullet)
+      if (/^[•\-]\s/.test(line)) {
+        // Save previous item if exists
+        if (currentItem) {
+          listItems.push({
+            text: currentItem,
+            subItems: [...currentSubItems]
+          });
+        }
+        
+        currentItem = line.replace(/^[•\-]\s/, '');
+        currentSubItems = [];
+      }
+      // Sub-item (indented with bullet or dash)
+      else if (/^\s+[•\-]\s/.test(line)) {
+        currentSubItems.push(line.replace(/^\s+[•\-]\s/, '').trim());
+      }
+      // Continuation of current item
+      else if (currentItem && line) {
+        currentItem += ' ' + line;
+      }
+    });
+
+    // Add the last item
+    if (currentItem) {
+      listItems.push({
+        text: currentItem,
+        subItems: [...currentSubItems]
+      });
+    }
+
+    return (
+      <Box key={`unordered-list-${blockIndex}`} sx={{ mb: 2 }}>
+        <List sx={{ py: 0 }}>
+          {listItems.map((item, index) => (
+            <React.Fragment key={index}>
+              <ListItem
+                sx={{
+                  py: 1,
+                  px: 0,
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Box sx={{ display: 'flex', width: '100%' }}>
+                  <Typography
+                    component="span"
+                    sx={{
+                      minWidth: '20px',
+                      color: theme.palette.primary.main,
+                      fontWeight: 600,
+                      fontSize: '1.2rem',
+                      mt: -0.2,
+                      lineHeight: 1,
+                    }}
+                  >
+                    •
+                  </Typography>
+                  <Box sx={{ flex: 1 }}>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        lineHeight: 1.6,
+                        color: theme.palette.text.secondary,
+                        fontSize: '0.95rem',
+                        mb: item.subItems.length > 0 ? 1 : 0,
+                      }}
+                    >
+                      {parseTextFormatting(item.text)}
+                    </Typography>
+                    
+                    {/* Nested sub-items */}
+                    {item.subItems.length > 0 && (
+                      <List sx={{ py: 0, pl: 2 }}>
+                        {item.subItems.map((subItem, subIndex) => (
+                          <ListItem key={subIndex} sx={{ py: 0.5, px: 0 }}>
+                            <Box sx={{ display: 'flex', width: '100%' }}>
+                              <Typography
+                                component="span"
+                                sx={{
+                                  minWidth: '16px',
+                                  color: theme.palette.secondary.main,
+                                  fontWeight: 500,
+                                  fontSize: '1rem',
+                                  mt: -0.1,
+                                  lineHeight: 1,
+                                }}
+                              >
+                                ◦
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                sx={{
+                                  lineHeight: 1.5,
+                                  color: theme.palette.text.secondary,
+                                  fontSize: '0.9rem',
+                                  flex: 1,
+                                }}
+                              >
+                                {parseTextFormatting(subItem)}
                               </Typography>
                             </Box>
                           </ListItem>
@@ -189,7 +347,17 @@ const defaultSections = [
     id: 'overview',
     title: 'Business Overview',
     icon: <Assessment />,
-    content: `Based on current data analysis, your business is showing strong growth patterns with a 23% increase in user engagement over the past quarter. Key performance indicators suggest optimal market positioning with room for strategic expansion in emerging segments.`,
+    content: `Based on current data analysis, your business is showing **strong growth patterns** with a **23% increase** in user engagement over the past quarter. Key performance indicators suggest optimal market positioning with room for strategic expansion in emerging segments.
+
+**Key Highlights:**
+
+• Revenue growth exceeded expectations by 15%
+• Customer satisfaction scores reached **4.7/5.0**
+• Market share expanded in **3 key demographics**
+  • Millennial professionals (25-35 age group)
+  • Small business owners
+  • Enterprise decision makers
+• **Competitive advantage** maintained through innovation`,
   },
   {
     id: 'trends',
