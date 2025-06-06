@@ -5,6 +5,10 @@ import { Box, Typography, Grid, Card, CardContent, Button } from '@mui/material'
 import theme from './theme';
 import Layout from './components/Layout';
 import AIAnalytics from './components/AIAnalytics';
+import AIAnalyticsV2 from './components/AIAnalyticsV2';
+import TableDemo from './components/TableDemo';
+import FormVariants from './components/FormVariants';
+import EngageTeamForm from './components/EngageTeamForm';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -13,6 +17,14 @@ export default function App() {
     switch (currentPage) {
       case 'ai-analytics':
         return <AIAnalytics />;
+      case 'ai-analytics-v2':
+        return <AIAnalyticsV2 />;
+      case 'table-demo':
+        return <TableDemo />;
+      case 'form-demo':
+        return <FormVariants />;
+      case 'engage-team':
+        return <EngageTeamForm />;
       default:
         return (
           <>
@@ -111,6 +123,43 @@ export default function App() {
                     onClick={() => setCurrentPage('ai-analytics')}
                   >
                     View AI Analytics
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    onClick={() => setCurrentPage('ai-analytics-v2')}
+                  >
+                    AI Analytics Hub
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="outlined" 
+                    size="large"
+                    onClick={() => setCurrentPage('table-demo')}
+                  >
+                    Table Demo
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    onClick={() => setCurrentPage('form-demo')}
+                  >
+                    Form Demo
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="warning"
+                    onClick={() => setCurrentPage('engage-team')}
+                  >
+                    Engage Team
                   </Button>
                 </Grid>
                 <Grid item>

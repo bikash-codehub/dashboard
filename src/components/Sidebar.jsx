@@ -32,6 +32,9 @@ import {
   Close,
   Circle,
   Psychology,
+  TableView,
+  Assignment,
+  NotificationsActive,
 } from '@mui/icons-material';
 
 const DRAWER_WIDTH = 280;
@@ -48,7 +51,20 @@ const navigationItems = [
     id: 'ai-analytics',
     title: 'AI Analytics',
     icon: <Psychology />,
-    path: '/ai-analytics',
+    children: [
+      { id: 'ai-analytics', title: 'Analytics Dashboard', path: '/ai-analytics' },
+      { id: 'ai-analytics-v2', title: 'Analytics Hub', path: '/ai-analytics-v2' },
+    ],
+  },
+  {
+    id: 'components',
+    title: 'Components',
+    icon: <Assignment />,
+    children: [
+      { id: 'table-demo', title: 'Table Demo', path: '/components/table' },
+      { id: 'form-demo', title: 'Form Demo', path: '/components/form' },
+      { id: 'engage-team', title: 'Engage Team', path: '/components/engage-team' },
+    ],
   },
   {
     id: 'analytics',
