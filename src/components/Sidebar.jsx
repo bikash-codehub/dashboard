@@ -36,6 +36,7 @@ import {
   Assignment,
   NotificationsActive,
   DynamicForm,
+  Dashboard,
 } from '@mui/icons-material';
 
 const DRAWER_WIDTH = 280;
@@ -67,6 +68,12 @@ const navigationItems = [
       { id: 'form-generator', title: 'Form Generator', path: '/components/form-generator' },
       { id: 'engage-team', title: 'Engage Team', path: '/components/engage-team' },
     ],
+  },
+  {
+    id: 'alerts-dashboard',
+    title: 'Alerts Dashboard',
+    icon: <Dashboard />,
+    path: '/alerts-dashboard',
   },
   {
     id: 'analytics',

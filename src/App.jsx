@@ -10,6 +10,10 @@ import TableDemo from './components/TableDemo';
 import FormVariants from './components/FormVariants';
 import EngageTeamForm from './components/EngageTeamForm';
 import FormGenerator from './components/FormGenerator';
+import AlertsDashboard from './components/AlertsDashboard';
+import AlertsAnalyticsDashboard from './components/AlertsAnalyticsDashboard';
+import MetricsMonitoringDashboard from './components/MetricsMonitoringDashboard';
+import ComprehensiveAlertsDashboard from './components/ComprehensiveAlertsDashboard';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -28,6 +32,14 @@ export default function App() {
         return <EngageTeamForm />;
       case 'form-generator':
         return <FormGenerator />;
+      case 'alerts-dashboard':
+        return <AlertsDashboard />;
+      case 'alerts-analytics':
+        return <AlertsAnalyticsDashboard />;
+      case 'metrics-monitoring':
+        return <MetricsMonitoringDashboard />;
+      case 'comprehensive-alerts':
+        return <ComprehensiveAlertsDashboard />;
       default:
         return (
           <>
@@ -173,6 +185,46 @@ export default function App() {
                     onClick={() => setCurrentPage('form-generator')}
                   >
                     Form Generator
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="error"
+                    onClick={() => setCurrentPage('alerts-dashboard')}
+                  >
+                    Alerts Dashboard
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="info"
+                    onClick={() => setCurrentPage('alerts-analytics')}
+                  >
+                    Alerts Analytics
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="success"
+                    onClick={() => setCurrentPage('metrics-monitoring')}
+                  >
+                    Metrics Monitoring
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="primary"
+                    onClick={() => setCurrentPage('comprehensive-alerts')}
+                  >
+                    Comprehensive Dashboard
                   </Button>
                 </Grid>
                 <Grid item>
