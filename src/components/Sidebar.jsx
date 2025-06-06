@@ -35,6 +35,7 @@ import {
   TableView,
   Assignment,
   NotificationsActive,
+  DynamicForm,
 } from '@mui/icons-material';
 
 const DRAWER_WIDTH = 280;
@@ -63,6 +64,7 @@ const navigationItems = [
     children: [
       { id: 'table-demo', title: 'Table Demo', path: '/components/table' },
       { id: 'form-demo', title: 'Form Demo', path: '/components/form' },
+      { id: 'form-generator', title: 'Form Generator', path: '/components/form-generator' },
       { id: 'engage-team', title: 'Engage Team', path: '/components/engage-team' },
     ],
   },

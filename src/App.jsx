@@ -9,6 +9,7 @@ import AIAnalyticsV2 from './components/AIAnalyticsV2';
 import TableDemo from './components/TableDemo';
 import FormVariants from './components/FormVariants';
 import EngageTeamForm from './components/EngageTeamForm';
+import FormGenerator from './components/FormGenerator';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -25,6 +26,8 @@ export default function App() {
         return <FormVariants />;
       case 'engage-team':
         return <EngageTeamForm />;
+      case 'form-generator':
+        return <FormGenerator />;
       default:
         return (
           <>
@@ -160,6 +163,16 @@ export default function App() {
                     onClick={() => setCurrentPage('engage-team')}
                   >
                     Engage Team
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="secondary"
+                    onClick={() => setCurrentPage('form-generator')}
+                  >
+                    Form Generator
                   </Button>
                 </Grid>
                 <Grid item>
