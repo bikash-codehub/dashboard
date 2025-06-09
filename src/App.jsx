@@ -7,6 +7,7 @@ import Layout from './components/Layout';
 import AIAnalytics from './components/AIAnalytics';
 import AIAnalyticsV2 from './components/AIAnalyticsV2';
 import TableDemo from './components/TableDemo';
+import DualTableDemo from './components/DualTableDemo';
 import FormVariants from './components/FormVariants';
 import EngageTeamForm from './components/EngageTeamForm';
 import FormGenerator from './components/FormGenerator';
@@ -26,6 +27,8 @@ export default function App() {
         return <AIAnalyticsV2 />;
       case 'table-demo':
         return <TableDemo />;
+      case 'dual-table-demo':
+        return <DualTableDemo />;
       case 'form-demo':
         return <FormVariants />;
       case 'engage-team':
@@ -156,6 +159,16 @@ export default function App() {
                     onClick={() => setCurrentPage('table-demo')}
                   >
                     Table Demo
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="info"
+                    onClick={() => setCurrentPage('dual-table-demo')}
+                  >
+                    Dual Table Demo
                   </Button>
                 </Grid>
                 <Grid item>
