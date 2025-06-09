@@ -8,6 +8,7 @@ import AIAnalytics from './components/AIAnalytics';
 import AIAnalyticsV2 from './components/AIAnalyticsV2';
 import TableDemo from './components/TableDemo';
 import DualTableDemo from './components/DualTableDemo';
+import AlertsMatrixDemo from './components/AlertsMatrixDemo';
 import FormVariants from './components/FormVariants';
 import EngageTeamForm from './components/EngageTeamForm';
 import FormGenerator from './components/FormGenerator';
@@ -29,6 +30,8 @@ export default function App() {
         return <TableDemo />;
       case 'dual-table-demo':
         return <DualTableDemo />;
+      case 'alerts-matrix-demo':
+        return <AlertsMatrixDemo />;
       case 'form-demo':
         return <FormVariants />;
       case 'engage-team':
@@ -169,6 +172,16 @@ export default function App() {
                     onClick={() => setCurrentPage('dual-table-demo')}
                   >
                     Dual Table Demo
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="error"
+                    onClick={() => setCurrentPage('alerts-matrix-demo')}
+                  >
+                    Alerts Matrix Demo
                   </Button>
                 </Grid>
                 <Grid item>
