@@ -17,7 +17,8 @@ import {
   Paper,
   Chip
 } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import ReactECharts from 'echarts-for-react';
+import TrendCard from './TrendCard';
 
 const ComprehensiveAlertsDashboard = () => {
   const [dateRange, setDateRange] = useState({ start: '2024-01-01', end: '2024-12-31' });
@@ -54,22 +55,34 @@ const ComprehensiveAlertsDashboard = () => {
     {
       title: 'Critical Red Alerts Trend',
       data: trendsData,
-      color: '#f44336',
-      dataKey: 'redAlerts',
+      primaryDataKey: 'redAlerts',
+      primaryColor: '#f44336',
+      secondaryDataKey: 'amberAlerts',
+      secondaryColor: '#ff9800',
+      primaryName: 'Red Alerts',
+      secondaryName: 'Amber Alerts',
       description: 'High priority system alerts requiring immediate attention'
     },
     {
       title: 'Warning Amber Alerts Trend', 
       data: trendsData,
-      color: '#ff9800',
-      dataKey: 'amberAlerts',
+      primaryDataKey: 'amberAlerts',
+      primaryColor: '#ff9800',
+      secondaryDataKey: 'redAlerts',
+      secondaryColor: '#f44336',
+      primaryName: 'Amber Alerts',
+      secondaryName: 'Red Alerts',
       description: 'Medium priority alerts that need monitoring'
     },
     {
       title: 'System Performance Metrics',
       data: trendsData,
-      color: '#2196f3',
-      dataKey: 'redMetrics',
+      primaryDataKey: 'redMetrics',
+      primaryColor: '#2196f3',
+      secondaryDataKey: 'amberMetrics',
+      secondaryColor: '#ff9800',
+      primaryName: 'Red Metrics',
+      secondaryName: 'Amber Metrics',
       description: 'Overall system health and performance indicators'
     }
   ];
@@ -138,57 +151,17 @@ const ComprehensiveAlertsDashboard = () => {
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {cardGroups.map((group, index) => (
           <Grid item xs={12} md={4} key={index}>
-            <Card sx={{ 
-              height: 400, 
-              border: 1, 
-              borderColor: 'divider',
-              '&:hover': {
-                boxShadow: 6,
-                transform: 'translateY(-2px)',
-                transition: 'all 0.3s ease-in-out'
-              }
-            }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, mb: 1 }}>
-                  {group.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  {group.description}
-                </Typography>
-                <Box sx={{ height: 300 }}>
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={group.data}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                      <XAxis 
-                        dataKey="name" 
-                        tick={{ fontSize: 12 }}
-                        axisLine={{ stroke: '#e0e0e0' }}
-                      />
-                      <YAxis 
-                        tick={{ fontSize: 12 }}
-                        axisLine={{ stroke: '#e0e0e0' }}
-                      />
-                      <Tooltip 
-                        contentStyle={{
-                          backgroundColor: '#fff',
-                          border: '1px solid #e0e0e0',
-                          borderRadius: '8px',
-                          boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                        }}
-                      />
-                      <Area 
-                        type="monotone" 
-                        dataKey={group.dataKey} 
-                        stroke={group.color} 
-                        fill={group.color}
-                        fillOpacity={0.3}
-                        strokeWidth={2}
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </Box>
-              </CardContent>
-            </Card>
+            <TrendCard
+              title={group.title}
+              description={group.description}
+              data={group.data}
+              primaryDataKey={group.primaryDataKey}
+              primaryColor={group.primaryColor}
+              secondaryDataKey={group.secondaryDataKey}
+              secondaryColor={group.secondaryColor}
+              primaryName={group.primaryName}
+              secondaryName={group.secondaryName}
+            />
           </Grid>
         ))}
       </Grid>
@@ -267,63 +240,139 @@ const ComprehensiveAlertsDashboard = () => {
                 Comparative view of red/amber metrics and alerts over time
               </Typography>
               <Box sx={{ height: 350 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={trendsData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                    <XAxis 
-                      dataKey="name" 
-                      tick={{ fontSize: 12 }}
-                      axisLine={{ stroke: '#e0e0e0' }}
-                    />
-                    <YAxis 
-                      tick={{ fontSize: 12 }}
-                      axisLine={{ stroke: '#e0e0e0' }}
-                    />
-                    <Tooltip 
-                      contentStyle={{
-                        backgroundColor: '#fff',
-                        border: '1px solid #e0e0e0',
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-                      }}
-                    />
-                    <Legend />
-                    <Line 
-                      type="monotone" 
-                      dataKey="redMetrics" 
-                      stroke="#f44336" 
-                      name="Red Metrics"
-                      strokeWidth={3}
-                      dot={{ fill: '#f44336', strokeWidth: 2, r: 4 }}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="amberMetrics" 
-                      stroke="#ff9800" 
-                      name="Amber Metrics"
-                      strokeWidth={3}
-                      dot={{ fill: '#ff9800', strokeWidth: 2, r: 4 }}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="redAlerts" 
-                      stroke="#d32f2f" 
-                      name="Red Alerts"
-                      strokeWidth={2}
-                      strokeDasharray="8 4"
-                      dot={{ fill: '#d32f2f', strokeWidth: 2, r: 3 }}
-                    />
-                    <Line 
-                      type="monotone" 
-                      dataKey="amberAlerts" 
-                      stroke="#f57c00" 
-                      name="Amber Alerts"
-                      strokeWidth={2}
-                      strokeDasharray="8 4"
-                      dot={{ fill: '#f57c00', strokeWidth: 2, r: 3 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+                <ReactECharts
+                  option={{
+                    tooltip: {
+                      trigger: 'axis',
+                      backgroundColor: '#fff',
+                      borderColor: '#e0e0e0',
+                      borderWidth: 1,
+                      borderRadius: 8,
+                      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+                      textStyle: {
+                        fontSize: 12,
+                        color: '#333'
+                      }
+                    },
+                    legend: {
+                      data: ['Red Metrics', 'Amber Metrics', 'Red Alerts', 'Amber Alerts'],
+                      bottom: 10,
+                      textStyle: {
+                        fontSize: 12
+                      }
+                    },
+                    grid: {
+                      left: 40,
+                      right: 30,
+                      top: 20,
+                      bottom: 50,
+                      containLabel: false
+                    },
+                    xAxis: {
+                      type: 'category',
+                      data: trendsData.map(item => item.name),
+                      axisLine: {
+                        lineStyle: {
+                          color: '#e0e0e0'
+                        }
+                      },
+                      axisTick: {
+                        show: false
+                      },
+                      axisLabel: {
+                        fontSize: 12,
+                        color: '#666'
+                      }
+                    },
+                    yAxis: {
+                      type: 'value',
+                      axisLine: {
+                        lineStyle: {
+                          color: '#e0e0e0'
+                        }
+                      },
+                      axisTick: {
+                        show: false
+                      },
+                      axisLabel: {
+                        fontSize: 12,
+                        color: '#666'
+                      },
+                      splitLine: {
+                        lineStyle: {
+                          color: '#f0f0f0',
+                          type: 'dashed'
+                        }
+                      }
+                    },
+                    series: [
+                      {
+                        name: 'Red Metrics',
+                        type: 'line',
+                        data: trendsData.map(item => item.redMetrics),
+                        smooth: true,
+                        lineStyle: {
+                          color: '#f44336',
+                          width: 3
+                        },
+                        symbol: 'circle',
+                        symbolSize: 4,
+                        itemStyle: {
+                          color: '#f44336'
+                        }
+                      },
+                      {
+                        name: 'Amber Metrics',
+                        type: 'line',
+                        data: trendsData.map(item => item.amberMetrics),
+                        smooth: true,
+                        lineStyle: {
+                          color: '#ff9800',
+                          width: 3
+                        },
+                        symbol: 'circle',
+                        symbolSize: 4,
+                        itemStyle: {
+                          color: '#ff9800'
+                        }
+                      },
+                      {
+                        name: 'Red Alerts',
+                        type: 'line',
+                        data: trendsData.map(item => item.redAlerts),
+                        smooth: true,
+                        lineStyle: {
+                          color: '#d32f2f',
+                          width: 2,
+                          type: 'dashed'
+                        },
+                        symbol: 'circle',
+                        symbolSize: 3,
+                        itemStyle: {
+                          color: '#d32f2f'
+                        }
+                      },
+                      {
+                        name: 'Amber Alerts',
+                        type: 'line',
+                        data: trendsData.map(item => item.amberAlerts),
+                        smooth: true,
+                        lineStyle: {
+                          color: '#f57c00',
+                          width: 2,
+                          type: 'dashed'
+                        },
+                        symbol: 'circle',
+                        symbolSize: 3,
+                        itemStyle: {
+                          color: '#f57c00'
+                        }
+                      }
+                    ]
+                  }}
+                  style={{ height: '100%', width: '100%' }}
+                  opts={{ renderer: 'canvas' }}
+                />
               </Box>
             </CardContent>
           </Card>
