@@ -9,6 +9,7 @@ import AIAnalyticsV2 from './components/AIAnalyticsV2';
 import TableDemo from './components/TableDemo';
 import DualTableDemo from './components/DualTableDemo';
 import AlertsMatrixDemo from './components/AlertsMatrixDemo';
+import PathAnalyticsTable from './components/PathAnalyticsTable';
 import FormVariants from './components/FormVariants';
 import EngageTeamForm from './components/EngageTeamForm';
 import FormGenerator from './components/FormGenerator';
@@ -32,6 +33,8 @@ export default function App() {
         return <DualTableDemo />;
       case 'alerts-matrix-demo':
         return <AlertsMatrixDemo />;
+      case 'path-analytics':
+        return <PathAnalyticsTable />;
       case 'form-demo':
         return <FormVariants />;
       case 'engage-team':
@@ -182,6 +185,16 @@ export default function App() {
                     onClick={() => setCurrentPage('alerts-matrix-demo')}
                   >
                     Alerts Matrix Demo
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="secondary"
+                    onClick={() => setCurrentPage('path-analytics')}
+                  >
+                    Path Analytics Table
                   </Button>
                 </Grid>
                 <Grid item>
