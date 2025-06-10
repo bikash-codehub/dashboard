@@ -327,23 +327,98 @@ const AlertsMatrixPage = () => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ py: 3 }}>
+    <Container maxWidth="xl" sx={{ 
+      py: 3,
+      // Add keyframe animations
+      '& @keyframes blink': {
+        '0%, 50%': { opacity: 1 },
+        '51%, 100%': { opacity: 0.3 }
+      },
+      '& @keyframes pulse': {
+        '0%': { opacity: 1 },
+        '50%': { opacity: 0.8 },
+        '100%': { opacity: 1 }
+      }
+    }}>
       {/* Header Section */}
       <Paper elevation={2} sx={{ mb: 3, overflow: 'hidden' }}>
         {/* Matrix Path */}
-        <Box sx={{ 
-          px: 3, 
-          py: 2, 
-          backgroundColor: theme.palette.primary.main, 
-          color: 'white' 
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Route sx={{ fontSize: 20 }} />
-            <Typography variant="h6" component="h1" sx={{ fontWeight: 500 }}>
-              Matrix Path: /alerts/production/infrastructure
-            </Typography>
-          </Box>
-        </Box>
+        {(() => {
+          const criticalAlerts = alertsData.filter(alert => 
+            alert.severity === 'Critical' && alert.status === 'Active'
+          );
+          const warningAlerts = alertsData.filter(alert => 
+            alert.severity === 'Warning' && alert.status === 'Active'
+          );
+          
+          let backgroundColor, statusText, statusIcon;
+          
+          if (criticalAlerts.length > 0) {
+            backgroundColor = theme.palette.error.main;
+            statusText = `CRITICAL: ${criticalAlerts.length} Active Alert${criticalAlerts.length > 1 ? 's' : ''}`;
+            statusIcon = (
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                backgroundColor: 'white',
+                animation: 'blink 1s infinite'
+              }} />
+            );
+          } else if (warningAlerts.length > 0) {
+            backgroundColor = theme.palette.warning.main;
+            statusText = `WARNING: ${warningAlerts.length} Active Alert${warningAlerts.length > 1 ? 's' : ''}`;
+            statusIcon = (
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                backgroundColor: 'white'
+              }} />
+            );
+          } else {
+            backgroundColor = theme.palette.success.main;
+            statusText = 'ALL SYSTEMS OPERATIONAL';
+            statusIcon = (
+              <Box sx={{ 
+                width: 8, 
+                height: 8, 
+                borderRadius: '50%', 
+                backgroundColor: 'white'
+              }} />
+            );
+          }
+          
+          return (
+            <Box sx={{ 
+              px: 3, 
+              py: 2, 
+              backgroundColor,
+              color: 'white',
+              animation: criticalAlerts.length > 0 ? 'pulse 2s infinite' : 'none'
+            }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Route sx={{ fontSize: 20 }} />
+                  <Typography variant="h6" component="h1" sx={{ fontWeight: 500 }}>
+                    Matrix Path: /alerts/production/infrastructure
+                  </Typography>
+                </Box>
+                
+                {/* High Priority Alert Status */}
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {statusIcon}
+                  <Typography variant="body2" sx={{ 
+                    fontWeight: 600,
+                    color: backgroundColor === theme.palette.warning.main ? 'black' : 'white'
+                  }}>
+                    {statusText}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+          );
+        })()}
 
         {/* Status Bar */}
         <Box sx={{ px: 3, py: 2, backgroundColor: 'grey.50' }}>
@@ -501,8 +576,10 @@ const AlertsMatrixPage = () => {
         onClose={handleUserActionsClose}
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-        PaperProps={{
-          sx: { minWidth: 200 }
+        slotProps={{
+          paper: {
+            sx: { minWidth: 200 }
+          }
         }}
       >
         {userActions.map((action, index) => 
