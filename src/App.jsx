@@ -10,6 +10,9 @@ import TableDemo from './components/TableDemo';
 import DualTableDemo from './components/DualTableDemo';
 import AlertsMatrixDemo from './components/AlertsMatrixDemo';
 import PathAnalyticsTable from './components/PathAnalyticsTable';
+import FilterableDataPanel from './components/FilterableDataPanel';
+import FilterableDataPanelDrawer from './components/FilterableDataPanelDrawer';
+import FilterableDataPanelDemo from './components/FilterableDataPanelDemo';
 import FormVariants from './components/FormVariants';
 import EngageTeamForm from './components/EngageTeamForm';
 import FormGenerator from './components/FormGenerator';
@@ -35,6 +38,12 @@ export default function App() {
         return <AlertsMatrixDemo />;
       case 'path-analytics':
         return <PathAnalyticsTable />;
+      case 'filterable-panel':
+        return <FilterableDataPanel />;
+      case 'filterable-panel-drawer':
+        return <FilterableDataPanelDrawer />;
+      case 'filterable-panel-demo':
+        return <FilterableDataPanelDemo />;
       case 'form-demo':
         return <FormVariants />;
       case 'engage-team':
@@ -195,6 +204,36 @@ export default function App() {
                     onClick={() => setCurrentPage('path-analytics')}
                   >
                     Path Analytics Table
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="success"
+                    onClick={() => setCurrentPage('filterable-panel')}
+                  >
+                    Filterable Data Panel
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="outlined" 
+                    size="large"
+                    color="success"
+                    onClick={() => setCurrentPage('filterable-panel-drawer')}
+                  >
+                    Filterable Panel (Drawer)
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="info"
+                    onClick={() => setCurrentPage('filterable-panel-demo')}
+                  >
+                    Reusable Filter Panel
                   </Button>
                 </Grid>
                 <Grid item>
