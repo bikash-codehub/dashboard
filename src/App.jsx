@@ -21,6 +21,7 @@ import AlertsAnalyticsDashboard from './components/AlertsAnalyticsDashboard';
 import MetricsMonitoringDashboard from './components/MetricsMonitoringDashboard';
 import ComprehensiveAlertsDashboard from './components/ComprehensiveAlertsDashboard';
 import AlertsMatrixPage from './components/AlertsMatrixPage';
+import AlertsMatrixVariant from './components/AlertsMatrixVariant';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -61,6 +62,8 @@ export default function App() {
         return <ComprehensiveAlertsDashboard />;
       case 'alerts-matrix-page':
         return <AlertsMatrixPage />;
+      case 'alerts-matrix-variant':
+        return <AlertsMatrixVariant />;
       default:
         return (
           <>
@@ -316,6 +319,16 @@ export default function App() {
                     onClick={() => setCurrentPage('alerts-matrix-page')}
                   >
                     Alerts Matrix Page
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="secondary"
+                    onClick={() => setCurrentPage('alerts-matrix-variant')}
+                  >
+                    Alerts Matrix Variant
                   </Button>
                 </Grid>
                 <Grid item>
