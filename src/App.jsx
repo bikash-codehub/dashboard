@@ -22,6 +22,16 @@ import MetricsMonitoringDashboard from './components/MetricsMonitoringDashboard'
 import ComprehensiveAlertsDashboard from './components/ComprehensiveAlertsDashboard';
 import AlertsMatrixPage from './components/AlertsMatrixPage';
 import AlertsMatrixVariant from './components/AlertsMatrixVariant';
+import AlertsMatrixV3 from './components/AlertsMatrixV3';
+import AlertsMatrixV4 from './components/AlertsMatrixV4';
+import AlertsMatrixV5 from './components/AlertsMatrixV5';
+import AlertsDisplayPage from './components/AlertsDisplayPage';
+import AlertsMatrixDisplayPage from './components/AlertsMatrixDisplayPage';
+import AlertsMatrixDisplayPageV2 from './components/AlertsMatrixDisplayPageV2';
+import AlertsMatrixDisplayPageV3 from './components/AlertsMatrixDisplayPageV3';
+import AlertsMatrixDisplayPageV4 from './components/AlertsMatrixDisplayPageV4';
+import AlertsMatrixDisplayPageV5 from './components/AlertsMatrixDisplayPageV5';
+import HeaderDemo from './components/HeaderDemo';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -64,6 +74,26 @@ export default function App() {
         return <AlertsMatrixPage />;
       case 'alerts-matrix-variant':
         return <AlertsMatrixVariant />;
+      case 'alerts-matrix-v3':
+        return <AlertsMatrixV3 />;
+      case 'alerts-matrix-v4':
+        return <AlertsMatrixV4 />;
+      case 'alerts-matrix-v5':
+        return <AlertsMatrixV5 />;
+      case 'alerts-display-page':
+        return <AlertsDisplayPage />;
+      case 'alerts-matrix-display-page':
+        return <AlertsMatrixDisplayPage />;
+      case 'alerts-matrix-display-page-v2':
+        return <AlertsMatrixDisplayPageV2 />;
+      case 'alerts-matrix-display-page-v3':
+        return <AlertsMatrixDisplayPageV3 />;
+      case 'alerts-matrix-display-page-v4':
+        return <AlertsMatrixDisplayPageV4 />;
+      case 'alerts-matrix-display-page-v5':
+        return <AlertsMatrixDisplayPageV5 />;
+      case 'header-demo':
+        return <HeaderDemo />;
       default:
         return (
           <>
@@ -329,6 +359,128 @@ export default function App() {
                     onClick={() => setCurrentPage('alerts-matrix-variant')}
                   >
                     Alerts Matrix Variant
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="primary"
+                    onClick={() => setCurrentPage('alerts-matrix-v3')}
+                  >
+                    Alerts Matrix V3
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="info"
+                    onClick={() => setCurrentPage('alerts-matrix-v4')}
+                  >
+                    Alerts Matrix V4 (Compact)
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="success"
+                    onClick={() => setCurrentPage('alerts-matrix-v5')}
+                  >
+                    Alerts Matrix V5 (Modern)
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="error"
+                    onClick={() => setCurrentPage('alerts-display-page')}
+                    sx={{ 
+                      background: 'linear-gradient(45deg, #ef4444, #dc2626)',
+                      fontWeight: 700,
+                      px: 3,
+                      '&:hover': {
+                        background: 'linear-gradient(45deg, #dc2626, #b91c1c)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 25px rgba(239, 68, 68, 0.3)'
+                      },
+                      transition: 'all 0.2s ease-in-out'
+                    }}
+                  >
+                    🚀 Enhanced Alerts Display Page
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="warning"
+                    onClick={() => setCurrentPage('alerts-matrix-display-page')}
+                  >
+                    Alerts Matrix Display
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="secondary"
+                    onClick={() => setCurrentPage('alerts-matrix-display-page-v2')}
+                  >
+                    Alerts Matrix Display V2
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="info"
+                    onClick={() => setCurrentPage('alerts-matrix-display-page-v3')}
+                  >
+                    Alerts Matrix Display V3
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="secondary"
+                    onClick={() => setCurrentPage('alerts-matrix-display-page-v4')}
+                  >
+                    Alerts Matrix V4 (Hero Design)
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="success"
+                    onClick={() => setCurrentPage('alerts-matrix-display-page-v5')}
+                    sx={{ 
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      fontWeight: 700,
+                      px: 3,
+                      '&:hover': {
+                        background: 'linear-gradient(135deg, #5a67d8 0%, #6b46a5 100%)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: '0 8px 25px rgba(102, 126, 234, 0.3)'
+                      },
+                      transition: 'all 0.2s ease-in-out'
+                    }}
+                  >
+                    ✨ Matrix Display V5 (Premium)
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button 
+                    variant="contained" 
+                    size="large"
+                    color="primary"
+                    onClick={() => setCurrentPage('header-demo')}
+                  >
+                    Header Demo (New!)
                   </Button>
                 </Grid>
                 <Grid item>
